@@ -1,28 +1,20 @@
 import LocalSvg from '@/assets/svg/LocalSvg'
+import AnimatedTextBar from '@/shared/components/animatedBar'
 import Colors from '@/shared/themes/Colors'
 import { HEIGHT } from '@/shared/utils/utils'
 import { navigate } from 'expo-router/build/global-state/routing'
-import React, { useCallback, useRef, useState } from 'react'
+import React from 'react'
 import { Animated, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import useWelcome from './viewmodel/useWelcome'
 
 const WelcomeScreen = () => {
-  const [svgHeight, setSvgHeight] = useState<number | null>(null)
-  const anim =useRef(new Animated.Value(1)).current
-  const scaleIcon = useCallback(() => {
-    Animated.sequence([
-      Animated.timing(anim, {
-        toValue: 1.1,
-        duration: 200,
-        useNativeDriver: true,
-      }),
-      Animated.timing(anim, {
-        toValue: 1,
-        duration: 200,
-        useNativeDriver: true,
-      }),
-    ]).start()
-  },[anim])
-  
+ const {
+  svgHeight,
+  setSvgHeight,
+  anim,
+  scaleIcon
+ } = useWelcome()
+ 
   return (
     <View style={styles.container}>
       <LocalSvg.LargeCurve
@@ -33,12 +25,14 @@ const WelcomeScreen = () => {
         }}
       />
         <View style={[styles.innerContainer,{marginTop:(svgHeight?? HEIGHT) * 0.8}]}>
-          <Text style={styles.title}>Welcome</Text>
+          <AnimatedTextBar titleStyle={styles.title} text='Welcome' viewStyle={{width:30}} />
           <Text style={styles.message}>Get ready for a fun and personalized quiz journey powered by AI.</Text>
         </View>
         <View style={[styles.buttonContainer]}>
           <TouchableOpacity onPress={()=>{scaleIcon()
+          setTimeout(()=>{
             navigate('/(auth)/login')
+          },400)
           }} activeOpacity={0.9} style={styles.touchable}>
           <Text style={styles.message}>
             Continue
