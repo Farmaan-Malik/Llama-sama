@@ -1,4 +1,3 @@
-import { Router } from "expo-router"
 import { TextInput } from "react-native"
 import { ScrollView } from "react-native-reanimated/lib/typescript/Animated"
 
@@ -13,5 +12,4 @@ export interface UseLogin{
     height:number | null
     setHeight:React.Dispatch<React.SetStateAction<number | null>>
     scrollRef:React.RefObject<ScrollView | null>
-    router: Router
 }

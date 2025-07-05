@@ -2,7 +2,7 @@ import LocalSvg from '@/assets/svg/LocalSvg'
 import AnimatedTextBar from '@/shared/components/animatedBar'
 import Colors from '@/shared/themes/Colors'
 import { HEIGHT } from '@/shared/utils/utils'
-import { navigate } from 'expo-router/build/global-state/routing'
+import { router } from 'expo-router'
 import React from 'react'
 import { Animated, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import useWelcome from './viewmodel/useWelcome'
@@ -31,7 +31,7 @@ const WelcomeScreen = () => {
         <View style={[styles.buttonContainer]}>
           <TouchableOpacity onPress={()=>{scaleIcon()
           setTimeout(()=>{
-            navigate('/(auth)/login')
+            router.navigate('/(auth)/login')
           },400)
           }} activeOpacity={0.9} style={styles.touchable}>
           <Text style={styles.message}>
