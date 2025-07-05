@@ -1,7 +1,9 @@
 import Colors from '@/shared/themes/Colors'
+import { WIDTH } from '@/shared/utils/utils'
 import bg from '@assets/images/bg.png'
 import bushes from '@assets/images/bushes.png'
 import llama from '@assets/images/Llama-sama.png'
+import sign from '@assets/images/Sign.png'
 import { router } from 'expo-router'
 import React from 'react'
 import { Animated, BackHandler, Image, ImageBackground, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
@@ -11,10 +13,14 @@ const HomeScreen = () => {
   const {
     anim,
     llamaAnim,
-    scaleAnim
+    scaleAnim,
+    signAnim
   } = useHome()
   return (
     <ImageBackground source={bg} style={styles.container}>
+      <Animated.View  style={[styles.sign,{transform:[{translateY:signAnim}]}]}>
+      <Image style={styles.signImg} source={sign}/>
+      </Animated.View>
       <Animated.View  style={[styles.llama,{transform:[{translateX:llamaAnim},{rotate:'-30deg'}]}]}>
       <Image source={llama}/>
       </Animated.View>
@@ -50,6 +56,14 @@ const styles = StyleSheet.create({
   },
   llama:{
     position:'absolute'
+  },
+  sign:{
+    position:'absolute',
+    top:-20,
+  },
+  signImg:{
+    width:WIDTH/1.7,
+    height:WIDTH/1.7
   },
   bushes:{
     position:'absolute',

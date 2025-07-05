@@ -1,4 +1,4 @@
-import { WIDTH } from '@/shared/utils/utils'
+import { HEIGHT, WIDTH } from '@/shared/utils/utils'
 import { useEffect, useRef } from 'react'
 import { Animated } from 'react-native'
 import { UseHome } from '../types/homeTypes'
@@ -6,7 +6,8 @@ import { UseHome } from '../types/homeTypes'
 const useHome = ():UseHome => {
     const anim = useRef(new Animated.Value(200)).current
     const llamaAnim = useRef(new Animated.Value(WIDTH*2)).current
-      const scaleAnim = useRef(new Animated.Value(1)).current
+    const scaleAnim = useRef(new Animated.Value(1)).current
+    const signAnim = useRef(new Animated.Value(-HEIGHT)).current
     useEffect(()=>{
         Animated.parallel([
             Animated.spring(anim,{
@@ -17,6 +18,11 @@ const useHome = ():UseHome => {
             Animated.spring(llamaAnim,{
                 toValue:WIDTH/1.8,
                 velocity:10,
+                useNativeDriver:true
+            }),
+            Animated.spring(signAnim,{
+                toValue:0,
+                velocity:8,
                 useNativeDriver:true
             })
         ]).start()
@@ -39,7 +45,8 @@ const useHome = ():UseHome => {
     return{
         anim,
         llamaAnim,
-        scaleAnim
+        scaleAnim,
+        signAnim
     }
 
 }
