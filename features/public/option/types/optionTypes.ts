@@ -3,3 +3,11 @@ export type gradeOptionProps={
     onPress:()=>void,
     selected:boolean
 }
+export type rectOptionProps={
+    subject:string,
+    onPress:()=>void,
+    selected:boolean
+}
+export type goButtonProps={
+    onPress:()=>void,
+}
