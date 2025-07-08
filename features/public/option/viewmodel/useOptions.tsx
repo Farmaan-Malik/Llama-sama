@@ -1,8 +1,12 @@
+import { useMutation } from "@tanstack/react-query"
 import { useState } from "react"
+import { SetInitialData } from "../../api/public.api"
 
 const useOptions = () => {
  const classData :number[]=[1,2,3,4,5,6,7,8]
  const subjectData:string[]= ['History','Civics','Geography','English','Physics','Chemistry','Biology']
+
+ const {data,isPending} = useMutation({mutationKey:['options'],mutationFn:SetInitialData})
 
  const [selectedClass,setSelectedClass]= useState<number | null>(null)
  const [selectedSubject,setSelectedSubject]= useState<string | null>(null)

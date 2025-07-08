@@ -12,7 +12,8 @@ const WelcomeScreen = () => {
   svgHeight,
   setSvgHeight,
   anim,
-  scaleIcon
+  scaleIcon,
+  updateFirstTime
  } = useWelcome()
  
   return (
@@ -30,6 +31,7 @@ const WelcomeScreen = () => {
         </View>
         <View style={[styles.buttonContainer]}>
           <TouchableOpacity onPress={()=>{scaleIcon()
+          updateFirstTime()
           setTimeout(()=>{
             router.navigate('/(auth)/login')
           },400)

@@ -7,6 +7,7 @@ import sign from '@assets/images/Sign.png'
 import { router } from 'expo-router'
 import React from 'react'
 import { Animated, BackHandler, Image, ImageBackground, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import Header from './components/header'
 import useHome from './viewmodel/useHome'
 
 const HomeScreen = () => {
@@ -14,10 +15,12 @@ const HomeScreen = () => {
     anim,
     llamaAnim,
     scaleAnim,
-    signAnim
+    signAnim,
+    clearStore
   } = useHome()
   return (
     <ImageBackground source={bg} style={styles.container}>
+      <Header onPress={clearStore}/>
       <Animated.View  style={[styles.sign,{transform:[{translateY:signAnim}]}]}>
       <Image style={styles.signImg} source={sign}/>
       </Animated.View>

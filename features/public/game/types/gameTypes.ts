@@ -4,3 +4,8 @@ export type optionProps={
     selected:boolean,
     correct:boolean
 }
+
+export type GetQuestionPayload = {
+    user:string,
+    correctResponses:string
+}

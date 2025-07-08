@@ -1,8 +1,9 @@
 import { client } from '@/shared/lib/tanstack-query';
+import { useAuthStore } from '@/shared/store/auth.store';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { useFonts } from 'expo-font';
-import { Slot, SplashScreen } from "expo-router";
-import { useEffect } from 'react';
+import { router, Slot, SplashScreen } from "expo-router";
+import { useEffect, useState } from 'react';
 import { StyleSheet } from "react-native";
 import 'react-native-reanimated';
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -10,6 +11,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 SplashScreen.preventAutoHideAsync()
 
 export default function RootLayout() {
+  const [isMounted,setisMounted]= useState(false)
+  const {isFirstTimeUser,token} = useAuthStore()
 
   const [loaded,error]= useFonts({
     'Borel':require('@assets/fonts/Borel-Regular.ttf'),
@@ -23,15 +26,27 @@ export default function RootLayout() {
     'Rubik-Bold':require('@assets/fonts/Rubik-Bold.ttf'),
     'Rubik-ExtraBold':require('@assets/fonts/Rubik-ExtraBold.ttf')
   })
-   useEffect(() => {
-    if (loaded || error) {
-      SplashScreen.hideAsync();
-    }
-  }, [loaded, error]);
+useEffect(() => {
+  if (loaded || error) {
+    SplashScreen.hideAsync();
+    setisMounted(true);
+  }
+}, [loaded, error]);
+
+useEffect(() => {
+  if (!isMounted) return;
+  if (!isFirstTimeUser && token) {
+    router.replace('/(public)');
+  } else if (!isFirstTimeUser && !token) {
+    router.replace('/(auth)/login');
+  }
+}, [isMounted, isFirstTimeUser, token]);
+
 
   if (!loaded && !error) {
     return null;
   }
+  
 
   return (
     <QueryClientProvider client={client}>

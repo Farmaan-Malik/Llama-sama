@@ -1,3 +1,4 @@
+import { useAuthStore } from '@/shared/store/auth.store'
 import { HEIGHT, WIDTH } from '@/shared/utils/utils'
 import { useEffect, useRef } from 'react'
 import { Animated } from 'react-native'
@@ -8,6 +9,8 @@ const useHome = ():UseHome => {
     const llamaAnim = useRef(new Animated.Value(WIDTH*2)).current
     const scaleAnim = useRef(new Animated.Value(1)).current
     const signAnim = useRef(new Animated.Value(-HEIGHT)).current
+    const {clearStore} = useAuthStore()
+
     useEffect(()=>{
         Animated.parallel([
             Animated.spring(anim,{
@@ -40,13 +43,13 @@ const useHome = ():UseHome => {
         })
       ])
     ).start()
-        
     },[])
     return{
         anim,
         llamaAnim,
         scaleAnim,
-        signAnim
+        signAnim,
+        clearStore
     }
 
 }

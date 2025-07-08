@@ -11,3 +11,9 @@ export type rectOptionProps={
 export type goButtonProps={
     onPress:()=>void,
 }
+
+export type InitialPromptPayload={
+    user:string,
+    standard:string,
+    subject:string
+}

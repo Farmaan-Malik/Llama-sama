@@ -1,10 +1,12 @@
 import LocalSvg from '@/assets/svg/LocalSvg'
 import AnimatedTextBar from '@/shared/components/animatedBar'
+import Loader from '@/shared/components/loader'
 import Colors from '@/shared/themes/Colors'
 import { HEIGHT } from '@/shared/utils/utils'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import { router } from 'expo-router'
 import React from 'react'
+
 import {
   KeyboardAvoidingView,
   Platform,
@@ -12,7 +14,7 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  View,
+  View
 } from 'react-native'
 import { KeyboardAvoidingScrollView } from 'react-native-keyboard-avoiding-scroll-view'
 import useLogin from './viewmodel/useLogin'
@@ -28,6 +30,11 @@ const LoginScreen = () => {
     setEmail,
     height,
     setHeight,
+    isPending,
+    isError,
+    error,
+    data,
+    handleLogin,
   } = useLogin()
 
   return (
@@ -41,7 +48,7 @@ const LoginScreen = () => {
         keyboardShouldPersistTaps="handled"
         stickyFooter={
           <View style={styles.footer}>
-            <TouchableOpacity style={styles.touchable}>
+            <TouchableOpacity onPress={()=>handleLogin()} style={styles.touchable}>
               <Text style={styles.buttonText}>Login</Text>
             </TouchableOpacity>
             <View style={styles.bottomRow}>
@@ -126,6 +133,7 @@ const LoginScreen = () => {
           </View>
         </View>
       </KeyboardAvoidingScrollView>
+      <Loader visible={isPending}/>
     </KeyboardAvoidingView>
   )
 }

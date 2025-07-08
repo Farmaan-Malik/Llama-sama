@@ -1,9 +1,9 @@
 import LocalSvg from '@/assets/svg/LocalSvg'
 import AnimatedTextBar from '@/shared/components/animatedBar'
+import Loader from '@/shared/components/loader'
 import Colors from '@/shared/themes/Colors'
 import { HEIGHT } from '@/shared/utils/utils'
 import Ionicons from '@expo/vector-icons/Ionicons'
-import { router } from 'expo-router'
 import React from 'react'
 import {
   KeyboardAvoidingView,
@@ -44,7 +44,8 @@ const SignupScreen = () => {
     emailRef,
     lastNameRef,
     svg,
-    setSvg,
+    handleSubmit,
+    isPending
 } = useSignup()
 
   return (
@@ -56,7 +57,9 @@ const SignupScreen = () => {
       <KeyboardAvoidingScrollView
       stickyFooter={ 
       <View style={styles.footer}>
-            <TouchableOpacity onPress={()=>{router.navigate('/(public)')}} style={styles.touchable}>
+            <TouchableOpacity onPress={()=>{
+              handleSubmit()
+            }} style={styles.touchable}>
               <Text style={styles.buttonText}>Confirm</Text>
             </TouchableOpacity>
       </View>
@@ -85,7 +88,6 @@ const SignupScreen = () => {
                <View style={[styles.inputRow,{flex:1}]}>
                  <Ionicons name="person-outline" size={20} style={styles.icon} />
                  <TextInput
-                 ref={emailRef}
                  autoComplete='off'
                  placeholder="Username"
                  value={username ?? ''}
@@ -189,6 +191,7 @@ const SignupScreen = () => {
         </View>
           </View>
       </KeyboardAvoidingScrollView>
+      <Loader visible={isPending}/>
       </KeyboardAvoidingView>
 
   )

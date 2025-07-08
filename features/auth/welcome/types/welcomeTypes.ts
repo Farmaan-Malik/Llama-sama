@@ -5,4 +5,5 @@ export interface UseWelcome {
   setSvgHeight: React.Dispatch<React.SetStateAction<number | null>>
   anim : Animated.Value
   scaleIcon: () => void
+  updateFirstTime:() => void
 }

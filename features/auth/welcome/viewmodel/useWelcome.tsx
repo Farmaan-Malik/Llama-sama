@@ -1,9 +1,12 @@
+import { useAuthStore } from '@/shared/store/auth.store'
 import { useCallback, useRef, useState } from 'react'
 import { Animated } from 'react-native'
 import { UseWelcome } from '../types/welcomeTypes'
 
 
 const useWelcome = (): UseWelcome => {
+
+    const {updateFirstTime} = useAuthStore()
     const [svgHeight, setSvgHeight] = useState<number | null>(null)
     const anim =useRef(new Animated.Value(1)).current
     const scaleIcon = useCallback(() => {
@@ -25,6 +28,7 @@ const useWelcome = (): UseWelcome => {
     setSvgHeight,
     anim,
     scaleIcon,
+    updateFirstTime
   }
 }
 

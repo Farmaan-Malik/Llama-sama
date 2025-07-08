@@ -1,7 +1,11 @@
+import { useAuthStore } from "@/shared/store/auth.store"
+import { ErrorResponse } from "@/shared/types/apiTypes"
+import { useMutation } from "@tanstack/react-query"
 import { useFocusEffect, useNavigation } from "expo-router"
-import { useCallback, useRef, useState } from "react"
-import { TextInput } from "react-native"
-import { UseLogin } from "../types/loginTypes"
+import { useCallback, useEffect, useRef, useState } from "react"
+import { TextInput, ToastAndroid } from "react-native"
+import { Login } from "../../api/auth.api"
+import { LoginPayload, UseLogin } from "../types/loginTypes"
 
 
 
@@ -12,8 +16,19 @@ const useLogin = () : UseLogin => {
   const [showPassword,setShowPassword] = useState(false)
   const [email,setEmail]=useState('')
   const [password,setPassword]=useState('')
-  // const {data} = useQuery({d})
-
+  const {setToken,setUsernameInStore,setUserId} = useAuthStore()
+  const {mutate,isPending,isError,error,data} = useMutation({
+  mutationKey: ["login"],
+  mutationFn: (payload: LoginPayload) => Login(payload),
+  onSuccess:(data)=>{
+    setToken(data.token)
+    setUserId(data.data.ID)
+    setUsernameInStore(data.data.Username)
+  },
+  onError:(error:ErrorResponse)=> {
+    ToastAndroid.show(error.response.data.message,ToastAndroid.LONG)
+  },
+});
   useFocusEffect(
     useCallback(()=>{
  const sub = navigation.addListener('beforeRemove', (e) => {
@@ -24,6 +39,14 @@ const useLogin = () : UseLogin => {
     return () => sub()
     },[navigation])
   )
+  useEffect(()=>{
+    console.log("isError",isError)
+    console.log("Error",error)
+  },[isError,error])
+
+  const handleLogin = () =>{
+    mutate({email,password})
+  }
   return{
     passwordRef,
     password,
@@ -34,6 +57,11 @@ const useLogin = () : UseLogin => {
     setEmail,
     height,
     setHeight,
-  }
+    isPending,
+    isError,
+    error,
+    data,
+    handleLogin,
+}
 }
 export default useLogin

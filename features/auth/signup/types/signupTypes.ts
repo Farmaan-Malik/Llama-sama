@@ -26,6 +26,21 @@ export interface UseSignup {
     confirmPasswordRef: React.RefObject<TextInput | null>
     firstNameRef: React.RefObject<TextInput | null>
     svg:string | null
-    setSvg : Dispatch<SetStateAction<string | null>>    
+    handleSubmit: () => void 
+    isPending:boolean
 
+}
+
+export type SignupPayload = {
+    FirstName:string,
+    LastName:string,
+    Email:string,
+    Username:string,
+    Password:string
+}
+
+export type SignupResponse = {
+    success: boolean, 
+    token: string,
+    ID:string
 }
