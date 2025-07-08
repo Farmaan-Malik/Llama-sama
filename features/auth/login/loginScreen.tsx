@@ -28,7 +28,6 @@ const LoginScreen = () => {
     setEmail,
     height,
     setHeight,
-    scrollRef,
   } = useLogin()
 
   return (

@@ -1,3 +1,5 @@
+import { client } from '@/shared/lib/tanstack-query';
+import { QueryClientProvider } from '@tanstack/react-query';
 import { useFonts } from 'expo-font';
 import { Slot, SplashScreen } from "expo-router";
 import { useEffect } from 'react';
@@ -8,7 +10,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 SplashScreen.preventAutoHideAsync()
 
 export default function RootLayout() {
-
 
   const [loaded,error]= useFonts({
     'Borel':require('@assets/fonts/Borel-Regular.ttf'),
@@ -33,9 +34,11 @@ export default function RootLayout() {
   }
 
   return (
+    <QueryClientProvider client={client}>
       <SafeAreaView style={styles.container}>
         <Slot/>
       </SafeAreaView>
+    </QueryClientProvider>
   );
 }
 const styles = StyleSheet.create({

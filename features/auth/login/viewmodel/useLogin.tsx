@@ -1,19 +1,18 @@
 import { useFocusEffect, useNavigation } from "expo-router"
 import { useCallback, useRef, useState } from "react"
 import { TextInput } from "react-native"
-import { ScrollView } from "react-native-reanimated/lib/typescript/Animated"
 import { UseLogin } from "../types/loginTypes"
 
 
 
 const useLogin = () : UseLogin => {
   const passwordRef = useRef<TextInput>(null)
-  const scrollRef = useRef<ScrollView>(null)
   const navigation = useNavigation()
   const [height, setHeight] = useState<number | null>(null)
   const [showPassword,setShowPassword] = useState(false)
   const [email,setEmail]=useState('')
   const [password,setPassword]=useState('')
+  // const {data} = useQuery({d})
 
   useFocusEffect(
     useCallback(()=>{
@@ -35,7 +34,6 @@ const useLogin = () : UseLogin => {
     setEmail,
     height,
     setHeight,
-    scrollRef,
   }
 }
 export default useLogin
