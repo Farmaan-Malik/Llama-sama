@@ -71,26 +71,19 @@ const useGame = ():UseGame => {
     });
 
     eventSource.addEventListener('error', (event) => {
-      console.log('Event error', event);
       stopGame()
       setError(true)
-      // router.back();
     });
 
     eventSource.addEventListener('done', () => {
-      // console.log('Event done');
-      // console.log("Question: ",question)
-      // console.log("Question: ",metaRef.current)
       stopGame()
 
       try {
         const parsedMeta = JSON.parse(metaRef.current);
         setMeta(parsedMeta);
-        console.log("PArsed: ",parsedMeta)
 
         setOptions([parsedMeta.options.A,parsedMeta.options.B,parsedMeta.options.C,parsedMeta.options.D])
        setCorrect(parsedMeta.answer)
-        // console.log("OPtions: ",options)
       } catch (err) {
         console.error('Meta parse error:', err);
       }

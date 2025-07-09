@@ -2,7 +2,7 @@ import { useAuthStore } from "@/shared/store/auth.store"
 import { ErrorResponse } from "@/shared/types/apiTypes"
 import { useMutation } from "@tanstack/react-query"
 import { useFocusEffect, useNavigation } from "expo-router"
-import { useCallback, useEffect, useRef, useState } from "react"
+import { useCallback, useRef, useState } from "react"
 import { TextInput, ToastAndroid } from "react-native"
 import { Login } from "../../api/auth.api"
 import { LoginPayload, UseLogin } from "../types/loginTypes"
@@ -39,10 +39,6 @@ const useLogin = () : UseLogin => {
     return () => sub()
     },[navigation])
   )
-  useEffect(()=>{
-    console.log("isError",isError)
-    console.log("Error",error)
-  },[isError,error])
 
   const handleLogin = () =>{
     mutate({email,password})

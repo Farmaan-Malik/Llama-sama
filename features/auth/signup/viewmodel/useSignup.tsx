@@ -34,7 +34,6 @@ const {mutate,isPending} = useMutation({
     ToastAndroid.show(error?.response?.data?.message,ToastAndroid.LONG)
   },
   onSuccess:(data)=>{
-    console.log("Token: ",data.token)
      setToken(data.token)
      setUserId(data.ID)
      setUsernameInStore(username!)
