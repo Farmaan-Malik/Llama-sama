@@ -1,22 +1,57 @@
+import { useAuthStore } from "@/shared/store/auth.store"
+import { ErrorResponse } from "@/shared/types/apiTypes"
 import { useMutation } from "@tanstack/react-query"
+import { router } from "expo-router"
 import { useState } from "react"
+import { ToastAndroid } from "react-native"
 import { SetInitialData } from "../../api/public.api"
+import { InitialPromptPayload, UseOptions } from "../types/optionTypes"
 
-const useOptions = () => {
+const useOptions = (): UseOptions => {
  const classData :number[]=[1,2,3,4,5,6,7,8]
- const subjectData:string[]= ['History','Civics','Geography','English','Physics','Chemistry','Biology']
-
- const {data,isPending} = useMutation({mutationKey:['options'],mutationFn:SetInitialData})
-
+ const subjectData:string[]= ['History','Geography','English','Physics','Chemistry','Biology']
  const [selectedClass,setSelectedClass]= useState<number | null>(null)
  const [selectedSubject,setSelectedSubject]= useState<string | null>(null)
+ const {userId}=useAuthStore()
+
+ const {mutate,isPending} = useMutation({
+   mutationKey:['options'],
+   mutationFn:(payload:InitialPromptPayload)=>SetInitialData(payload),
+   onError:(error:ErrorResponse)=>{
+      ToastAndroid.show(error.response.data.message,ToastAndroid.LONG)
+   },
+   onSuccess:(data)=>{
+      router.navigate("/(public)/game")
+   }
+})
+
+const handleSubmit = ()=>{
+   if (!(userId.length >= 0) ) {
+      ToastAndroid.show("Invalid User Id",ToastAndroid.LONG)
+      return
+   }
+   if (!selectedClass) {
+      ToastAndroid.show("Select a level",ToastAndroid.LONG)
+      return
+   }
+   if (!selectedSubject) {
+      ToastAndroid.show("Select a subject",ToastAndroid.LONG)
+      return
+   }
+
+   mutate({user:userId,standard:selectedClass?.toString()!,subject:selectedSubject!})
+}
+
+
  return{
     classData,
     subjectData,
     selectedClass,
     setSelectedClass,
     selectedSubject,
-    setSelectedSubject
+    setSelectedSubject,
+    handleSubmit,
+    isPending
  }
 }
 

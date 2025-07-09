@@ -1,7 +1,7 @@
+import Loader from '@/shared/components/loader'
 import Colors from '@/shared/themes/Colors'
 import { WIDTH } from '@/shared/utils/utils'
 import bg from '@assets/images/bgWithBoard.png'
-import { router } from 'expo-router'
 import React from 'react'
 import { ImageBackground, StyleSheet, Text, View } from 'react-native'
 import GoButton from './components/goButton'
@@ -16,13 +16,15 @@ const OptionScreen = () => {
     selectedClass,
     setSelectedClass,
     selectedSubject,
-    setSelectedSubject
+    setSelectedSubject,
+    handleSubmit,
+    isPending
   }=useOptions()
   return (
     <ImageBackground source={bg} style={styles.container}>
-      <Text style={styles.header}>{"Select grade and subject"}</Text>
+      <Text style={styles.header}>{"Select level and subject"}</Text>
       <View>
-        <Text style={styles.subHeader}>Choose your grade</Text>
+        <Text style={styles.subHeader}>Choose your level</Text>
       <View style={{flexDirection:'row',flexWrap:'wrap',justifyContent:'center',alignItems:'center'}}>
       {classData.map((v,i)=>{
         return (<GradeOption standard={v} key={i} onPress={()=>setSelectedClass(v)} selected={selectedClass === v}/>)})}
@@ -33,7 +35,11 @@ const OptionScreen = () => {
         return (<RectOption subject={v} key={i} onPress={()=>setSelectedSubject(v)} selected={selectedSubject === v}/>)})}
       </View>
       </View>
-      <GoButton onPress={()=>router.navigate('/(public)/game')}/>
+      <GoButton onPress={()=>
+      // router.navigate('/(public)/game')
+        handleSubmit()
+        }/>
+        <Loader visible={isPending}/>
     </ImageBackground>
   )
 }

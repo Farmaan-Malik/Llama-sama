@@ -6,17 +6,22 @@ import React from 'react'
 import { ImageBackground, StyleSheet, Text, TouchableOpacity } from 'react-native'
 import { optionProps } from '../types/gameTypes'
 
-const Option = ({option,onPress,selected,correct}:optionProps) => {
+const Option = ({option,onPress,selected,correct,disabled=false,showAnswer}:optionProps) => {
+  
   return (
     <TouchableOpacity
+  disabled={disabled}
   onPress={onPress}
   activeOpacity={0.9}
   style={styles.container}
 >
   <ImageBackground
-    source={selected ? correct ?  greenbutton : redButton : bg}
-    style={styles.innerContainer}
-    imageStyle={styles.imageStyle}
+source={
+  selected ? (correct ? greenbutton : redButton) : showAnswer ? greenbutton : bg
+}  
+
+  style={styles.innerContainer}
+  imageStyle={styles.imageStyle}
   >
     <Text style={styles.text}>{option}</Text>
   </ImageBackground>

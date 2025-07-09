@@ -3,6 +3,7 @@ import { GetQuestionPayload } from "../game/types/gameTypes"
 import { InitialPromptPayload } from "../option/types/optionTypes"
 
 export const SetInitialData=async(data:InitialPromptPayload)=>{
+    console.log("DATA: ",data)
     const response = await api.post("/user/initial",data)
     return response
 }
