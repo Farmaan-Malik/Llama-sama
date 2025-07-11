@@ -38,7 +38,7 @@ const useGame = ():UseGame => {
    };
 
   const startGame = () => {
-    if (count>5) {
+    if (count>=5) {
       setIsAlive(false)
       return
     }
@@ -82,7 +82,7 @@ const useGame = ():UseGame => {
         const parsedMeta = JSON.parse(metaRef.current);
         setMeta(parsedMeta);
 
-        setOptions([parsedMeta.options.A,parsedMeta.options.B,parsedMeta.options.C,parsedMeta.options.D])
+      setOptions([parsedMeta.options.A,parsedMeta.options.B,parsedMeta.options.C,parsedMeta.options.D])
        setCorrect(parsedMeta.answer)
       } catch (err) {
         console.error('Meta parse error:', err);
