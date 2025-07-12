@@ -33,7 +33,7 @@ const HomeScreen = () => {
           PLAY
         </Text>
       </TouchableOpacity>
-      <TouchableOpacity activeOpacity={0.8} onPress={()=>Platform.OS === 'ios' ? router.navigate('/(auth)/login') : BackHandler.exitApp()} style={styles.buttonSecondary}>
+      <TouchableOpacity activeOpacity={0.8} onPress={()=>Platform.OS === 'ios' ? clearStore() : BackHandler.exitApp()} style={styles.buttonSecondary}>
         <Text style={styles.buttonText}>
          {Platform.OS === 'ios' ? 'LOGOUT' : 'QUIT'}
         </Text>

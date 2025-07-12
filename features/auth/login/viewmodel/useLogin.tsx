@@ -1,9 +1,8 @@
 import { useAuthStore } from "@/shared/store/auth.store"
-import { ErrorResponse } from "@/shared/types/apiTypes"
 import { useMutation } from "@tanstack/react-query"
 import { useFocusEffect, useNavigation } from "expo-router"
 import { useCallback, useRef, useState } from "react"
-import { TextInput, ToastAndroid } from "react-native"
+import { Alert, TextInput } from "react-native"
 import { Login } from "../../api/auth.api"
 import { LoginPayload, UseLogin } from "../types/loginTypes"
 
@@ -25,8 +24,14 @@ const useLogin = () : UseLogin => {
     setUserId(data.data.ID)
     setUsernameInStore(data.data.Username)
   },
-  onError:(error:ErrorResponse)=> {
-    ToastAndroid.show(error.response.data.message,ToastAndroid.LONG)
+  onError:(error)=> {
+    if (error instanceof Error) {
+      console.log("API Error:", error.message)
+      Alert.alert(error.message)
+    } else {
+      console.log("Unknown error", error)
+            Alert.alert(error)
+    }
   },
 });
   useFocusEffect(
@@ -55,7 +60,6 @@ const useLogin = () : UseLogin => {
     setHeight,
     isPending,
     isError,
-    error,
     data,
     handleLogin,
 }

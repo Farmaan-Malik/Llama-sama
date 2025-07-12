@@ -32,7 +32,6 @@ const LoginScreen = () => {
     setHeight,
     isPending,
     isError,
-    error,
     data,
     handleLogin,
   } = useLogin()

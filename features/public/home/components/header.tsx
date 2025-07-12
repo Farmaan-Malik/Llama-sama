@@ -3,7 +3,7 @@ import Colors from '@/shared/themes/Colors'
 import { createAvatarFromString } from '@/shared/utils/utils'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import React, { useEffect, useRef, useState } from 'react'
-import { Animated, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Animated, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { SvgXml } from 'react-native-svg'
 import { HeaderProps } from '../types/homeTypes'
 
@@ -49,8 +49,8 @@ const Header = ({onPress}:HeaderProps) => {
           <Text style={styles.text} numberOfLines={2}>
             {username}
           </Text>
-          <Ionicons onPress={onPress} size={25} color={Colors.white} name='exit' />
-        </Animated.View>
+{Platform.OS ==='android' &&  <Ionicons onPress={onPress} size={25} color={Colors.white} name='exit' />
+}        </Animated.View>
       )}
     </View>
   )

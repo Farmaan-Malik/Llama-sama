@@ -1,4 +1,3 @@
-import { ErrorResponse } from "@/shared/types/apiTypes"
 import { TextInput } from "react-native"
 
 export interface UseLogin{
@@ -13,7 +12,6 @@ export interface UseLogin{
     setHeight:React.Dispatch<React.SetStateAction<number | null>>
     isPending:boolean
     isError:boolean
-    error: ErrorResponse | null
     data:LoginResponse | undefined
     handleLogin: () => void
 }

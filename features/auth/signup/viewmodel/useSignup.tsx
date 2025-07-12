@@ -1,11 +1,10 @@
 
 import { useAuthStore } from '@/shared/store/auth.store';
-import { ErrorResponse } from '@/shared/types/apiTypes';
 import { createAvatarFromString } from '@/shared/utils/utils';
 import { useMutation } from '@tanstack/react-query';
 import { router } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
-import { TextInput, ToastAndroid } from 'react-native';
+import { Alert, TextInput } from 'react-native';
 import { Signup } from '../../api/auth.api';
 import { SignupPayload, UseSignup } from '../types/signupTypes';
 
@@ -30,9 +29,15 @@ const useSignup = (): UseSignup => {
 const {mutate,isPending} = useMutation({
   mutationKey:["signup"],
   mutationFn:(payload:SignupPayload)=>Signup(payload),
-  onError:(error:ErrorResponse)=>{
-    ToastAndroid.show(error?.response?.data?.message,ToastAndroid.LONG)
-  },
+  onError:(error)=> {
+     if (error instanceof Error) {
+       console.log("API Error:", error.message)
+       Alert.alert(error.message)
+     } else {
+       console.log("Unknown error", error)
+        Alert.alert(error)
+     }
+   },
   onSuccess:(data)=>{
      setToken(data.token)
      setUserId(data.ID)

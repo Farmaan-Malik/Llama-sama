@@ -1,9 +1,8 @@
 import { useAuthStore } from "@/shared/store/auth.store"
-import { ErrorResponse } from "@/shared/types/apiTypes"
 import { useMutation } from "@tanstack/react-query"
 import { router } from "expo-router"
 import { useState } from "react"
-import { ToastAndroid } from "react-native"
+import { Alert, ToastAndroid } from "react-native"
 import { SetInitialData } from "../../api/public.api"
 import { InitialPromptPayload, UseOptions } from "../types/optionTypes"
 
@@ -17,9 +16,15 @@ const useOptions = (): UseOptions => {
  const {mutate,isPending} = useMutation({
    mutationKey:['options'],
    mutationFn:(payload:InitialPromptPayload)=>SetInitialData(payload),
-   onError:(error:ErrorResponse)=>{
-      ToastAndroid.show(error.response.data.message,ToastAndroid.LONG)
-   },
+    onError:(error)=> {
+        if (error instanceof Error) {
+          console.log("API Error:", error.message)
+          Alert.alert(error.message)
+        } else {
+          console.log("Unknown error", error)
+           Alert.alert(error)
+        }
+      },
    onSuccess:(data)=>{
       router.navigate("/(public)/game")
    }
