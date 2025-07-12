@@ -1,3 +1,4 @@
+import { baseURL } from '@/shared/lib/axios-instance';
 import { useAuthStore } from '@/shared/store/auth.store';
 import { useRef, useState } from 'react';
 import { Animated } from 'react-native';
@@ -20,7 +21,7 @@ const useGame = ():UseGame => {
   const eventSourceRef = useRef<EventSource | null>(null);
   const llamaAnim = useRef(new Animated.Value(300)).current
 
-  const BASE_URL = process.env.EXPO_PUBLIC_BASE_URL;
+  const BASE_URL = baseURL;
   const url = `${BASE_URL}/user/question?userId=${userId}`;
   const [options,setOptions] =useState<string[]>([]) 
   const triggerAnimation=()=>{
@@ -67,8 +68,21 @@ const useGame = ():UseGame => {
     });
 
     eventSource.addEventListener('metadata', (event) => {
-      metaRef.current += event.data;
-    });
+  console.log("INCOMING FULL METADATA:", event.data);
+  try {
+    const parsedMeta = JSON.parse(event.data!);
+    setMeta(parsedMeta);
+    setOptions([
+      parsedMeta.options.A,
+      parsedMeta.options.B,
+      parsedMeta.options.C,
+      parsedMeta.options.D,
+    ]);
+    setCorrect(parsedMeta.answer);
+  } catch (err) {
+    console.error("Meta JSON parse failed:", err, "Data:", event.data);
+  }
+});
 
     eventSource.addEventListener('error', (event) => {
       stopGame()
@@ -77,16 +91,6 @@ const useGame = ():UseGame => {
 
     eventSource.addEventListener('done', () => {
       stopGame()
-
-      try {
-        const parsedMeta = JSON.parse(metaRef.current);
-        setMeta(parsedMeta);
-
-      setOptions([parsedMeta.options.A,parsedMeta.options.B,parsedMeta.options.C,parsedMeta.options.D])
-       setCorrect(parsedMeta.answer)
-      } catch (err) {
-        console.error('Meta parse error:', err);
-      }
     });
   };
 

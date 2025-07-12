@@ -1,9 +1,10 @@
 import axios from 'axios'
 import { useAuthStore } from '../store/auth.store'
 
+export const baseURL = process.env.EXPO_PUBLIC_BASE_URL
 
 const api = axios.create({
-  baseURL: process.env.EXPO_PUBLIC_BASE_URL,
+  baseURL: baseURL,
   timeout: 10000,
   timeoutErrorMessage: 'Request timed out',
   headers: {
